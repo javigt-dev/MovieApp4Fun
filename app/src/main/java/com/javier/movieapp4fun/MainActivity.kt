@@ -1,6 +1,7 @@
 package com.javier.movieapp4fun
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.clickable
@@ -57,29 +58,30 @@ fun MainContent(
     Column(modifier = Modifier.padding(12.dp)) {
         LazyColumn {
             items(items = movieList){
-                MovieRow(movie = it)
+                MovieRow(movie = it){movie ->
+                    Log.d("TAG", "MAINCONTENT: $movie")
+                }
             }
         }
     }
 }
 
 @Composable
-fun MovieRow(movie: String) {
+fun MovieRow(movie: String, onItemClick: (String) -> Unit) {
     Card(
         modifier = Modifier
             .padding(4.dp)
             .fillMaxWidth()
-            .height(130.dp),
+            .height(130.dp)
+            .clickable {
+                       onItemClick(movie)
+            },
         shape = RoundedCornerShape(corner = CornerSize(16.dp)),
         elevation = 6.dp
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start,
-            modifier = Modifier
-                .clickable {
-                    TODO()
-                }
+            horizontalArrangement = Arrangement.Start
         ) {
             Surface(
                 modifier = Modifier
